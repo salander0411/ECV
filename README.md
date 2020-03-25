@@ -50,3 +50,10 @@ prefix = ''   - 前缀名称，不修改则会根据链接自动检测<br>
 1.检索compare_ts.py生成的最新日期日志，并上传所有ts文件<br>
 2.失败的链接会在同路径下的最新日期日志文件中<br>
 <br>
+
+## upload_index.py
+功能：<br>
+1.根据给定的txt文件，上传所有index.m3u8文件（同ts文件同一目录）<br>
+2.bucket和prefix请在upload.py文件中指定
+3.上传失败的链接会记录到同文件夹下的最新日期日志中
+<br>
