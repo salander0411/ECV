@@ -47,6 +47,6 @@ prefix = ''   - 前缀名称，不修改则会根据链接自动检测<br>
 
 ## upload_again.py
 功能：<br>
-1.检索compare_ts.py生成的最新日期日志，并上传所有文件<br>
+1.检索compare_ts.py生成的最新日期日志，并上传所有ts文件<br>
 2.失败的链接会在同路径下的最新日期日志文件中<br>
 <br>
