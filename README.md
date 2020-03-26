@@ -22,13 +22,15 @@ Linux 或 Windows上的Python 3 环境 , 安装 requests 和 boto3 库
    pip3 install boto3
    ```
 #### Windows
-   download python3 from [python.org](https://www.python.org/downloads/windows/)    
-   `pip3 install requests`    
-   `pip3 install boto3`     
+   ```
+   # download python3 from [python.org](https://www.python.org/downloads/windows/) 
+   pip3 install requests
+   pip3 install boto3
+   ``` 
 
 ### 第四步. 准备脚本
 1. 在默认 ```~``` 的路径下， ```mkdir ll```  建立 ll 的文件夹   之后 ```cd ll``` 进入文件夹
-1. 在旧数据上云的过程中，我们共需要三个脚本， 1.upload.py,  2.check_error.py, 以及 3.compare_ts.py, 4.re-upload-ts.py。 分别用于上传list，重传失败的文件，以及最后验证文件完整性, 以及再次重传没有的ts文件。先把这几个代码 copy到服务器上。
+1. 在旧数据上云的过程中，我们主要需要4个脚本， 1.upload.py,  2.check_error.py, 以及 3.compare_ts.py, 4.re-upload-ts.py。 分别用于上传list，重传失败的文件，以及最后验证文件完整性, 以及再次重传没有的ts文件。先把这几个代码 copy到服务器上。
 
 # 使用步骤
 1. 将 video_partN.txt 上传到服务器  `~/ll` 这个文件夹下
@@ -39,14 +41,14 @@ Linux 或 Windows上的Python 3 环境 , 安装 requests 和 boto3 库
 1. 过几个小时，登录到server上。查看进程有没有执行完毕。 ``ps aux | grep ‘python’``，如无，继续等待。不要删除或者移动任何文件。
 1. 如执行完毕，检查实际处理的条数是否和video_partN.txt一致。执行 ``wc -l video_partN.txt``   ， 再执行  ``grep 'deal' log/video_partN.log | wc -l ``。 
    1. 如果两者数目一致，说明程序执行没有问题。
-   2. 如果不一致，说明实际程序执行到某一行时，可能因为特殊字符（中文或者是"）的原因自动退出了。这时候需要先执行 **python3 2.check_error.py** 再去对应的行数检查（vim进去之后，: set nu，然后到对应行查看）。
-   3. 查看完毕解决字符问题后，重新建一个list，修改 1.upload.py的参数，让 1.upload.py 继续执行剩下的没有执行的行数。
+   2. 如果不一致，说明实际程序执行到某一行时，可能因为特殊字符（中文或者是"）的原因自动退出了。这时候需要先执行 ``python3 2.check_error.py``，再去对应的行数检查（vim进去之后，: set nu，然后到对应行查看）。
+   3. 查看完毕解决字符问题后，重新建一个剩余url的list，修改 ``1.upload.py`` 的参数，让 ``1.upload.py`` 继续执行剩下的没有执行的行数。
 1. 如果前两者检查没有问题，ls可以发现文件夹多了一个日期的log，如2020-03-20-07-39-45.log，这个日志是记录 import.py 里由于超时等原因没有上传成功的url的。
    执行  ``python3 2.check_error.py``,  该脚本会自动找到最新的日期log，将日期log 里面记录下来的没有上传成功的list重新上传。并且又会生成新的日期log。
    如果执行完 2.check_error.py，  wc -l  最新的时间戳日志.log，看一下是不是0行，如果多于0行，继续执行 ``python3 2.check_error.py``，直到没有新的错误link生成
-1. 循环这个过程，直到所有数据都上传成功。最后，运行 3.compare_ts.py 检测数据的完整性，该脚本会验证每个文件夹下的ts分片数是不是和index.m3u8当中的是一致的，并且记录那些不一致的URL到日志当中。
-1. 运行 4.re-upload-ts.py,  把这些文件上传有漏的情况，重新上传一遍。
-1. 二次运行 3.compare_ts.py  ，检查日志是否为空，如果不为空，循环这个4.re-upload-ts.py,直到最后日志为空。
+1. 循环这个过程，直到某个站下的所有数据都上传成功。最后，运行 3.compare_ts.py 检测数据的完整性，该脚本会验证每个文件夹下的ts分片数是不是和index.m3u8当中的是一致的，并且记录那些不一致的URL到日志当中。
+1. 运行 ``pythoon3 4.re-upload-ts.py``,  把这些文件上传有漏的情况，重新上传一遍。
+1. 二次运行 ``python3 3.compare_ts.py``  ，检查日志是否为空，如果不为空，循环这个4.re-upload-ts.py,直到最后日志为空。
    
 
 # 脚本功能说明
