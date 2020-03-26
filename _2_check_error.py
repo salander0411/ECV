@@ -6,6 +6,6 @@ Created on Mon Mar 23 14:59:45 2020
 @author: chenlaws
 """
 
-import comparets
+import _1_upload
 
-comparets.upload_again(max_thread = 300)
+_1_upload.check_error(max_thread = 300)
