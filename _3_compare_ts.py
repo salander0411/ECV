@@ -14,7 +14,7 @@ modified 2020-03-24
 import boto3
 import requests
 import logging
-import upload
+import _1_upload
 import os
 import time
 import queue
@@ -92,7 +92,7 @@ def upload_again(max_thread = 300):
     
     all_links = get_all_links()
     
-    upload.main(all_links)
+    _1_upload.main(all_links)
 
 
 
