@@ -47,7 +47,7 @@ Linux 或 Windows上的Python 3 环境 , 安装 requests 和 boto3 库
    执行  ``python3 _2_check_error.py``,  该脚本会自动找到最新的日期log，将日期log 里面记录下来的没有上传成功的list重新上传。并且又会生成新的日期log。
    如果执行完 _2_check_error.py，  wc -l  最新的时间戳日志.log，看一下是不是0行，如果多于0行，继续执行 ``python3 _2_check_error.py``，直到没有新的错误link生成
 1. 循环这个过程，直到某个站下的所有数据都上传成功。最后，运行 _3_compare_ts.py 检测数据的完整性，该脚本会验证每个文件夹下的ts分片数是不是和index.m3u8当中的是一致的，并且记录那些不一致的URL到日志当中。
-1. 运行 ``pythoon3 _4_re_upload_ts.py``,  把这些文件上传有漏的情况，重新上传一遍。
+1. 运行 ``python3 _4_re_upload_ts.py``,  把这些文件上传有漏的情况，重新上传一遍。
 1. 二次运行 ``python3 _3_compare_ts.py``  ，检查日志是否为空，如果不为空，循环这个_4_re_upload_ts.py,直到最后日志为空。
    
 
@@ -79,7 +79,8 @@ prefix = 'video1-hsanhl-com/'   - s3桶前缀路径，字符串类型  最前面
 自定义脚本参数（可以自行修改变量）：<br>
 my_bucket = s3.Bucket('test--20200310')  - 修改s3桶名称<br>
 txt_file = 'btt1.txt'   - txt文件路径<br>
-prefix = ''   - 前缀名称，不修改则会根据链接自动检测<br>
+prefix = ''   - 前缀名称，不修改则会根据链接自动检测 - 字符串类型  最前面不要/,最后要/，比如 'abc/123/'<br>
+<br>
 <br>
 
 ## _4_re_upload_ts.py
