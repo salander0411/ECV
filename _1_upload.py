@@ -23,7 +23,7 @@ import os
 #--------------------------------自修改信息区域------------------------------#
 
 file_path = 'btt1.txt'
-maxThreads = 300
+maxThreads = 800
 bucket = 'test--20200310'
 prefix = 'video1-hsanhl-com/'   #最前面不要/,最后要/，比如 abc/123/
 
@@ -44,11 +44,7 @@ class download_and_upload(threading.Thread):
         try:
             #print('开始下载',self.path)
             file = requests.get(self.link)
-            if file.status_code == 404:
-                self.logger_404.error(self.link)
-            else:
-                #print('开始上传',self.path)
-                s3_client.put_object(Body=file.content, Bucket=bucket, Key=self.path)               
+            s3_client.put_object(Body=file.content, Bucket=bucket, Key=self.path)
         except Exception as e:
             print(e)
             self.logger.error(self.link)

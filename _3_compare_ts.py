@@ -103,7 +103,7 @@ def main():
     #自修改信息区域--------------------
     my_bucket = s3.Bucket('test--20200310')
     txt_file = 'btt1.txt'
-    prefix = ''
+    prefix = ''  # 最后需要带 "/", 如 "video-xxx-com/"
     #-------------------------------
     
     with open(txt_file) as f:
