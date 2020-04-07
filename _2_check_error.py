@@ -8,4 +8,9 @@ Created on Mon Mar 23 14:59:45 2020
 
 import _1_upload
 
-_1_upload.check_error(max_thread = 300)
+if __name__ == '__main__':
+    maxThreads = 800
+    bucket = 'test--20200310'
+    prefix = 'video1-hsanhl-com/'   #最前面不要/,最后要/，比如 abc/123/
+    
+    _1_upload.check_error(bucket, prefix, maxThreads)
