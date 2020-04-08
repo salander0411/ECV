@@ -64,7 +64,7 @@ def get_prefix(new_url):
     return prefix, path
 
 
-def upload_again(max_thread = 300):
+def upload_again(bucket, prefix, maxThreads = 300):
     def get_latest_log(log_lists):
         latest_time = None
         for i in log_lists:
@@ -90,9 +90,15 @@ def upload_again(max_thread = 300):
         except Exception as e:
             print(e)
     
-    all_links = get_all_links()
-    
-    _1_upload.main(all_links)
+    all_links_file = get_all_links()
+    tslogger = set_tslogger()
+        
+    with open(all_links_file,'r') as f:
+        all_m3u8_lists = f.read().splitlines()
+
+    for url in all_m3u8_lists:
+        _1_upload.multi_thread(url, maxThreads, tslogger, bucket, prefix)
+
 
 
 
@@ -111,8 +117,9 @@ def main():
             all_ts_numbers, prefix_auto , path = get_information(url)
             if prefix == '':
                 prefix = prefix_auto
-            if get_s3_numbers(my_bucket, prefix, path)-1 != all_ts_numbers:
-                print('不相等,{0},should be:{1}'.format(url,all_ts_numbers))
+            all_s3_ts_numbers = get_s3_numbers(my_bucket, prefix, path)
+            if all_s3_ts_numbers-1 != all_ts_numbers:
+                print('不相等,{0},s3:{1},should be:{2}'.format(url,all_s3_ts_numbers, all_ts_numbers))
                 tslogger.error(url)
             else:
                 print('yes,{0},numbers:{1}'.format(url, all_ts_numbers))
